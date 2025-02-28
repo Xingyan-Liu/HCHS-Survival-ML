@@ -1,47 +1,53 @@
 # HCHS-SOL Survival Machine Learning Models
 
-This repository contains the R code implementations of six survival prediction models developed as part of my thesis work on all-cause mortality prediction in Hispanic/Latino populations. The models are designed to handle complex survey data (from HCHS/SOL) and compare traditional statistical methods with advanced machine learning techniques.
+This repository contains the weighted R code implementations of six survival prediction models developed as part of my thesis work on all-cause mortality prediction in Hispanic/Latino populations. All models incorporate sample weights (using the `bghhsub_s2` variable) to properly account for the complex survey design of the HCHS/SOL data. The repository compares traditional statistical methods with advanced machine learning techniques.
 
 ## Project Overview
 
-The goal of this project is to improve mortality prediction by exploring and comparing six different modeling approaches. Each method has been implemented with cross-validation to estimate model performance (using Harrell’s C-index) and to compute individual risk scores (defined as 1 minus the predicted survival probability). In addition, each script produces survival probability plots to visualize the cumulative survival curves over time.
+The goal of this project is to improve mortality prediction by exploring and comparing six different modeling approaches. Each weighted model has been implemented with cross-validation to estimate model performance (using Harrell’s C-index) and to compute individual risk scores (defined as 1 minus the predicted survival probability). In addition, each script produces survival probability plots to visualize the cumulative survival curves over time.
 
 ## Repository Structure
 
 - **1_Cox_Backward_Selection.R**  
-  Implements a Cox proportional hazards model with backward selection.
+  Implements a weighted Cox proportional hazards model with backward selection.
   - Uses the `survival`, `Hmisc`, and `ggplot2` packages.
   - Performs 5-fold cross-validation to calculate the C-index and risk scores.
+  - Applies sample weights via the `bghhsub_s2` variable.
   - Plots the cumulative survival probability for the final model.
 
 - **2_Weibull_Backward_Selection.R**  
-  Implements a parametric Weibull survival model with backward selection.
+  Implements a weighted parametric Weibull survival model with backward selection.
   - Uses `survival`, `flexsurv`, `MASS`, `Hmisc`, and `ggplot2`.
   - Conducts 5-fold cross-validation and computes predictions at the maximum observed time.
+  - Incorporates sample weights to adjust for the complex survey design.
   - Plots the survival curve based on the fitted Weibull model.
 
 - **3_Survival_Tree.R**  
-  Implements a nonparametric survival tree.
-  - Uses `ranger` for a single-tree (by setting `num.trees=1`) approach and also employs `rpart`/`rpart.plot` to visualize the tree structure.
+  Implements a weighted nonparametric survival tree.
+  - Uses `ranger` (with `num.trees=1`) and `rpart`/`rpart.plot` to visualize the tree structure.
   - Runs 5-fold cross-validation to evaluate model performance and computes risk scores.
+  - Applies sample weights during model fitting.
   - Generates survival probability plots for the tree model.
 
 - **4_Random_Survival_Forest.R**  
-  Implements a Random Survival Forest model.
+  Implements a weighted Random Survival Forest model.
   - Utilizes the `ranger` package to build an ensemble of survival trees.
   - Performs 5-fold cross-validation to estimate the C-index and risk scores.
+  - Uses sample weights (via `bghhsub_s2`) in the model fitting process.
   - Fits a final model on the entire dataset and plots the cumulative survival curve.
 
 - **5_Lasso_Cox.R**  
-  Implements a Lasso-regularized Cox model using penalized regression.
+  Implements a weighted Lasso-regularized Cox model using penalized regression.
   - Uses `glmnet` along with `survival` and `Hmisc` for model fitting and evaluation.
   - Employs 5-fold cross-validation to select the optimal lambda, compute non-zero coefficients, and assess performance.
+  - Incorporates sample weights during model fitting.
   - Produces a final survival curve plot after fitting the model on the full dataset.
 
 - **6_Gradient_Boosting_Cox.R**  
-  Implements a Gradient Boosting Machine (GBM) for survival analysis (Cox model).
+  Implements a weighted Gradient Boosting Machine (GBM) for survival analysis (Cox model).
   - Uses the `gbm` package along with supporting packages (`dplyr`, `Hmisc`, and `ggplot2`).
   - Conducts 5-fold cross-validation, determines the optimal number of trees, and computes risk scores.
+  - Incorporates sample weights to adjust predictions for the complex survey design.
   - Produces survival probability curves and additional combined plots comparing models (including plots of C-index and risk score across models).
 
 ## Prerequisites
