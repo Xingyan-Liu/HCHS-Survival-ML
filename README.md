@@ -60,11 +60,7 @@ install.packages(c("survival", "Hmisc", "ggplot2", "flexsurv", "MASS", "ranger",
 
 ## Data
 
-Each script loads the sample dataset from a CSV file located at:
-
-```
-/Users/liuxingyan/Desktop/HCHS:SOL Codes/HCHS survival data/sample.csv
-```
+Each script loads the sample dataset from the CSV file `sample.csv`.
 
 The dataset is preprocessed by converting key categorical variables (e.g., `hisp_strat`, `age_strat`, and several predictors) into factors.
 
